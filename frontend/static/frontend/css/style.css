@@ -1,0 +1,96 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+.blended_grid {
+    display: block;
+    width: 900px;
+    overflow: auto;
+    margin: 30px auto 0 auto;
+}
+
+.pageHeader {
+    background-color: black;
+    color: whitesmoke;
+    float: left;
+    clear: none;
+    height: 200px;
+    width: 900px;
+    text-align: center;
+    line-height: 200px;
+    font-size: 2em;
+}
+
+.pageHeader a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.pageLeftMenu {
+    background-color: black;
+    float: left;
+    clear: none;
+    height: 900px;
+    width: 200px;
+    z-index: 2;
+}
+
+.pageContent {
+    float: left;
+    clear: none;
+    height: 540px;
+    width: 640px;
+    padding: 30px;
+}
+
+.pageContent > h1{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.pageFooter {
+    background-color: black;
+    float: left;
+    clear: none;
+    height: 100px;
+    width: 900px;
+    color: whitesmoke;
+    text-align: center;
+    line-height: 100px;
+}
+
+#sidebar {
+    line-height: 1;
+    width: 200px;
+    background: black;
+    zoom: 1;
+    font-size: 1em;
+    color: whitesmoke;
+}
+
+#sidebar a {
+    color: whitesmoke;
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#sidebar > ul > li:hover {
+    background: whitesmoke;
+    border: 2px solid black;
+}
+
+#sidebar > ul > li:hover > a{
+    color: black;
+}
+.select_header{
+    text-align: center;
+}

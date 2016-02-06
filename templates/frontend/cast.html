@@ -1,0 +1,51 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+    <h1>Cast</h1>
+    <br/>
+    {% if castable %}
+    <form id="change" action="{% url 'frontend:change' %}" method="post">
+
+        {% csrf_token %}
+        <h3>Destination</h3>
+        <div id="accordion">
+            <h3>Devices</h3>
+            <div>
+                <select multiple="multiple" name="devices[]" id="device_select">
+                    {% for device in devices %}
+                        <option value="{{ device.id }}">{{ device.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <h3>Device Groups</h3>
+            <div>
+                <select multiple="multiple" name="groups[]" id="group_select">
+                    {% for group in groups %}
+                        <option value="{{ group.id }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+        </div>
+        <br/><br/>
+        <h3>Configuration</h3>
+        <br/>
+
+        <div id="configuration_select">
+            {% for config in configs %}
+                <input type="radio" name="config" id="config{{ config.id }}" value="{{ config.id }}"/>
+                <label for="config{{ config.id }}">{{ config.name }}</label>
+            {% endfor %}
+        </div>
+        <br/>
+        <br/>
+        <input type="submit" value="Cast"/>
+    </form>
+    {% else %}
+    <p>You need to add some devices and/or configurations first!</p>
+
+    {% endif %}
+{% endblock %}

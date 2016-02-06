@@ -1,0 +1,12 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+   <h1>Status</h1>
+    <br />
+    <ul>
+    {% for device in devices %}
+        <li>{{ device.name }} - {{ device.configuration.name }}</li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
