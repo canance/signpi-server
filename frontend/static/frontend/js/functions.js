@@ -24,12 +24,19 @@ $(function () {
     $("input[type=submit]").button();
     $("#radio").buttonset();
     $("#configuration_select").buttonset();
-    $("#device_select").multiSelect({
+
+    $("select[multiple=\"multiple\"]").multiSelect({
         selectableHeader: "<div class='select_header'>Available</div>",
         selectionHeader: "<div class='select_header'>Selected</div>",
     });
-    $("#group_select").multiSelect({
-        selectableHeader: "<div class='select_header'>Available</div>",
-        selectionHeader: "<div class='select_header'>Selected</div>",
+
+    $( "#tabs" ).tabs({
+      beforeLoad: function( event, ui ) {
+        ui.jqXHR.fail(function() {
+          ui.panel.html(
+            "Couldn't load this tab. We'll try to fix this as soon as possible.");
+        });
+      }
     });
 });
+

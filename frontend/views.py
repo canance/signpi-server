@@ -20,25 +20,28 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from backend.models import Configuration, Device, Group
+from .forms import DeviceForm, GroupForm
 
 
 @login_required()
 def index(request):
-    devices = Device.objects.exclude(name__isnull=True).order_by('name')
-    configs = Configuration.objects.order_by('name')
+    devices = len(Device.objects.all())
+    groups = len(Group.objects.all())
+    configs = len(Configuration.objects.all())
+
 
     context = {
         'devices': devices,
         'configs': configs,
+        'groups': groups,
     }
-
     return render(request, 'frontend/index.html', context)
 
 
 @login_required()
 def change(request):
     device_ids = request.POST.getlist('devices[]')  # device ids
-    group_ids = request.POST.getlist('groups[]') # group ids
+    group_ids = request.POST.getlist('groups[]')  # group ids
     config_id = request.POST['config']  # config id
 
     # make sure config is a valid id
@@ -55,7 +58,7 @@ def change(request):
             device.configuration = config
             device.save()
 
-    return HttpResponseRedirect(reverse('frontend:index'))
+    return HttpResponseRedirect('/frontend/')
 
 
 @login_required()
@@ -72,5 +75,91 @@ def cast(request):
         'configs': configs,
         'castable': castable,
     }
-
     return render(request, 'frontend/cast.html', context)
+
+
+@login_required()
+def device_groups(request):
+    groups = Group.objects.order_by('name')
+
+    context = {
+        'groups': groups,
+        'size': len(groups),
+    }
+    return render(request, 'frontend/device_groups.html', context)
+
+
+@login_required()
+def create_device_group(request):
+    if request.method == 'POST':
+        form = GroupForm(request.POST, label_suffix='')
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/device_groups')
+    else:
+        form = GroupForm(label_suffix='')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'frontend/create_device_group.html', context)
+
+
+@login_required()
+def edit_device_group(request, grp):
+    group = Group.objects.get(pk=grp)
+
+    if request.method == 'POST':
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/device_groups')
+    else:
+        form = GroupForm(instance=group, label_suffix='')
+        context = {
+            'form': form,
+        }
+        return render(request, 'frontend/edit_device_group.html', context)
+
+
+@login_required()
+def devices(request):
+    devs = Device.objects.order_by('name')
+    context = {
+        'devices': devs,
+        'size': len(devs),
+    }
+    return render(request, 'frontend/devices.html', context)
+
+
+@login_required()
+def edit_device(request, dev):
+    dev = Device.objects.get(pk=dev)
+
+    if request.method == 'POST':
+        form = DeviceForm(request.POST, instance=dev)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/devices')
+    else:
+        form = DeviceForm(instance=dev, label_suffix='')
+        context = {
+            'form': form,
+        }
+        return render(request, 'frontend/edit_device.html', context)
+
+
+@login_required()
+def create_device(request):
+    if request.method == 'POST':
+        form = DeviceForm(request.POST, label_suffix='')
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/devices')
+    else:
+        form = DeviceForm(label_suffix='')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'frontend/create_device.html', context)

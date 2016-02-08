@@ -1,0 +1,28 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+    <h1>Devices</h1>
+
+
+    <div id="tabs">
+
+        <ul>
+            <li><a href="#tab-devices">Devices</a></li>
+            <li><a href="{% url 'frontend:create_device' %}">Create</a></li>
+        </ul>
+
+
+        <div id="tab-devices">
+            <ul>
+                {% for device in devices %}
+                    <li><a href="{% url 'frontend:edit_device' dev=device.id %}">{{ device }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

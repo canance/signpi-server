@@ -9,16 +9,6 @@
         {% csrf_token %}
         <h3>Destination</h3>
         <div id="accordion">
-            <h3>Devices</h3>
-            <div>
-                <select multiple="multiple" name="devices[]" id="device_select">
-                    {% for device in devices %}
-                        <option value="{{ device.id }}">{{ device.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-
             <h3>Device Groups</h3>
             <div>
                 <select multiple="multiple" name="groups[]" id="group_select">
@@ -27,8 +17,14 @@
                     {% endfor %}
                 </select>
             </div>
-
-
+            <h3>Devices</h3>
+            <div>
+                <select multiple="multiple" name="devices[]" id="device_select">
+                    {% for device in devices %}
+                        <option value="{{ device.id }}">{{ device.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
         <br/><br/>
         <h3>Configuration</h3>

@@ -1,12 +1,12 @@
 {% extends "frontend/base.html" %}
 
 {% block content %}
-   <h1>Status</h1>
-    <br />
+    <h1>Status</h1>
+
     <ul>
-    {% for device in devices %}
-        <li>{{ device.name }} - {{ device.configuration.name }}</li>
-    {% endfor %}
+    <li>Devices: {{ devices }}</li>
+    <li>Device Groups: {{ groups }}</li>
+    <li>Configurations: {{ configs }}</li>
     </ul>
 
 {% endblock %}

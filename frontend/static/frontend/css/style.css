@@ -28,7 +28,7 @@ body {
     font-size: 2em;
 }
 
-.pageHeader a{
+.pageHeader a {
     color: whitesmoke;
     text-decoration: none;
 }
@@ -50,7 +50,7 @@ body {
     padding: 30px;
 }
 
-.pageContent > h1{
+.pageContent > h1 {
     text-align: center;
     padding-bottom: 30px;
 }
@@ -88,9 +88,43 @@ body {
     border: 2px solid black;
 }
 
-#sidebar > ul > li:hover > a{
+#sidebar > ul > li:hover > a {
     color: black;
 }
-.select_header{
+
+.select_header {
     text-align: center;
+    background: whitesmoke;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"] {
+    width: 295px;
+}
+
+textarea {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+input[type="submit"]{
+    border: none;
 }

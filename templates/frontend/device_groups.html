@@ -1,0 +1,29 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+    <h1>Device Groups</h1>
+
+
+<div id="tabs">
+
+<ul>
+    <li><a href="#tab-groups">Groups</a></li>
+    <li><a href="{% url 'frontend:create_device_group' %}">Create</a></li>
+</ul>
+
+
+
+    <div id="tab-groups">
+    <ul>
+    {% for group in groups %}
+        <li><a href="{% url 'frontend:edit_device_group' grp=group.id %}">{{ group }}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

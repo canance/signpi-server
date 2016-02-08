@@ -21,7 +21,12 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^change/', views.change, name='change'),
     url(r'^cast/', views.cast, name='cast'),
+    url(r'^change/', views.change, name='change'),
+    url(r'^create_device/', views.create_device, name="create_device"),
+    url(r'^create_device_group', views.create_device_group, name='create_device_group'),
+    url(r'^devices/', views.devices, name='devices'),
+    url(r'^device_groups/', views.device_groups, name='device_groups'),
+    url(r'^edit_device/(?P<dev>\d+)/$', views.edit_device, name='edit_device'),
+    url(r'^edit_device_group/(?P<grp>\d+)/$', views.edit_device_group, name='edit_device_group'),
 ]
-
