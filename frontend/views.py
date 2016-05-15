@@ -20,7 +20,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from backend.models import Configuration, Device, Group
-from .forms import DeviceForm, GroupForm
+from .forms import DeviceForm, GroupForm, ConfigurationForm
 
 
 @login_required()
@@ -163,3 +163,35 @@ def create_device(request):
         'form': form,
     }
     return render(request, 'frontend/create_device.html', context)
+
+
+@login_required()
+def configuration(request):
+    configs = Configuration.objects.order_by('name')
+    context = {
+        'configs': configs,
+        'size': len(configs),
+    }
+    return render(request, 'frontend/configurations.html', context)
+
+
+@login_required()
+def create_configuration(request):
+    if request.method == 'POST':
+        form = ConfigurationForm(request.POST, label_suffix='')
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/configurations')
+    else:
+        form = ConfigurationForm(label_suffix='')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'frontend/create_configuration.html', context)
+
+
+@login_required()
+def edit_configuration(request, config):
+    pass
+
