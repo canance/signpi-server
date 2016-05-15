@@ -1,0 +1,29 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+    <h1>Configurations</h1>
+
+
+<div id="tabs">
+
+<ul>
+    <li><a href="#tab-configs">Configurations</a></li>
+    <li><a href="{% url 'frontend:create_configuration' %}">Create</a></li>
+</ul>
+
+
+
+    <div id="tab-configs">
+    <ul>
+    {% for config in configs %}
+        <li><a href="{% url 'frontend:edit_configuration' config=config.id %}">{{ config }}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,12 @@
+<form action="{% url 'frontend:create_configuration' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="Submit" value="Submit"/>
+</form>
+
+<script>
+        $("select[multiple=\"multiple\"]").multiSelect({
+        selectableHeader: "<div class='select_header'>Available</div>",
+        selectionHeader: "<div class='select_header'>Selected</div>",
+    });
+</script>

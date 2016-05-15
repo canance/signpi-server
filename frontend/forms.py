@@ -16,7 +16,7 @@
 # limitations under the License.
 
 from django.forms import ModelForm
-from backend.models import Group, Device
+from backend.models import Group, Device, Configuration
 
 
 class GroupForm(ModelForm):
@@ -28,4 +28,10 @@ class GroupForm(ModelForm):
 class DeviceForm(ModelForm):
     class Meta:
         model = Device
+        fields = '__all__'
+
+
+class ConfigurationForm(ModelForm):
+    class Meta:
+        model = Configuration
         fields = '__all__'

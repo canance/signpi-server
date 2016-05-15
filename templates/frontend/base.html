@@ -27,6 +27,7 @@
             {% else %}
                 <li><a href="{% url 'frontend:index' %}">home</a></li>
                 <li><a href="{% url 'frontend:cast' %}">cast</a></li>
+                <li><a href="{% url 'frontend:configuration' %}">configuration</a></li>
                 <li><a href="{% url 'frontend:devices' %}">devices</a></li>
                 <li><a href="{% url 'frontend:device_groups' %}">device groups</a></li>
                 <li><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></li>
@@ -43,7 +44,7 @@
     </div>
     <div id="footer" class="pageFooter">
         {% block footer %}{% endblock %}
-    Copyright 2016 Coastal Carolina University
+    Copyright 2016 by Coastal Carolina University
     </div>
 </div>
 </body>
