@@ -28,5 +28,8 @@ urlpatterns = [
     url(r'^devices/', views.devices, name='devices'),
     url(r'^device_groups/', views.device_groups, name='device_groups'),
     url(r'^edit_device/(?P<dev>\d+)/$', views.edit_device, name='edit_device'),
+    url(r'^slideshows/', views.slideshows, name="slideshows"),
+    url(r'^create_slideshow/', views.create_slideshow, name="create_slideshow"),
+    url(r'^edit_slideshow/(?P<slideshow>.*)/$', views.edit_slideshow, name='edit_slideshow'),
     url(r'^edit_device_group/(?P<grp>\d+)/$', views.edit_device_group, name='edit_device_group'),
 ]

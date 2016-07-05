@@ -1,0 +1,28 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+    <h1>Devices</h1>
+
+
+    <div id="tabs">
+
+        <ul>
+            <li><a href="#tab-devices">Devices</a></li>
+            <li><a href="{% url 'frontend:create_slideshow' %}">Create</a></li>
+        </ul>
+
+
+        <div id="tab-devices">
+            <ul>
+                {% for slide in slides %}
+                    <li><a href="{% url 'frontend:edit_slideshow' slideshow=slide %}">{{ slide }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

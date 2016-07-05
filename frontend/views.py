@@ -20,8 +20,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from backend.models import Configuration, Device, Group
-from .forms import DeviceForm, GroupForm
-
+from .forms import DeviceForm, GroupForm, SlideshowForm
+from .slideshow import list_slideshows
 
 @login_required()
 def index(request):
@@ -163,3 +163,46 @@ def create_device(request):
         'form': form,
     }
     return render(request, 'frontend/create_device.html', context)
+
+
+@login_required()
+def slideshows(request):
+    slides = list_slideshows()
+    context = {
+        'slides': slides,
+        'size': len(slides),
+    }
+    return render(request, 'frontend/slideshows.html', context)
+
+
+@login_required()
+def edit_slideshow(request, slide):
+
+    if request.method == 'POST':
+        form = SlideshowForm(request.POST)
+        if form.is_valid():
+            create_slideshow(form.name, form.desc, form.url)
+            return HttpResponseRedirect('/frontend/slideshows')
+    else:
+        # get desc and url for name (slide)
+        form = SlideshowForm(slide)
+        context = {
+            'form': form,
+        }
+        return render(request, 'frontend/edit_slideshow.html', context)
+
+
+@login_required()
+def create_slideshow(request):
+    if request.method == 'POST':
+        form = SlideshowForm(request.POST)
+        if form.is_valid():
+            create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
+            return HttpResponseRedirect('/frontend/slideshows')
+    else:
+        form = SlideshowForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'frontend/create_slideshow.html', context)

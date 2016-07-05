@@ -57,10 +57,9 @@ class Device(models.Model):
     configuration = models.ForeignKey(Configuration, models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        if self.name:
-            return self.name
-        else:
-            return self.mac
+        config = self.configuration if self.configuration else "N/A"
+        name = self.name if self.name  else self.mac
+        return "%s - %s" % (name, config)
 
 
 class Group(models.Model):
@@ -70,4 +69,3 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
-

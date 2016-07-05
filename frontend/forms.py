@@ -15,7 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from django.forms import ModelForm
+from django import forms
+from django.forms import ModelForm, Form
 from backend.models import Group, Device
 
 
@@ -29,3 +30,9 @@ class DeviceForm(ModelForm):
     class Meta:
         model = Device
         fields = '__all__'
+
+
+class SlideshowForm(Form):
+    name = forms.CharField(label="Name", max_length=100)
+    desc = forms.CharField(label="Description", max_length=255)
+    url = forms.CharField(label="PDF URL", max_length=255)
