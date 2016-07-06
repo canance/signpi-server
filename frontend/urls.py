@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^slideshows/', views.slideshows, name="slideshows"),
     url(r'^slideshow/(?P<name>.*)/$', views.get_slideshow, name="slideshow"),
     url(r'^create_slideshow/', views.create_slideshow, name="create_slideshow"),
-    url(r'^edit_slideshow/(?P<slideshow>.*)/$', views.edit_slideshow, name='edit_slideshow'),
+    url(r'^delete_slideshow/(?P<name>.*)/$', views.delete_slideshow, name="delete_slideshow"),
+    url(r'^edit_slideshow/(?P<name>.*)/$', views.edit_slideshow, name='edit_slideshow'),
     url(r'^edit_device_group/(?P<grp>\d+)/$', views.edit_device_group, name='edit_device_group'),
 ]

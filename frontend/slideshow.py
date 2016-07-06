@@ -28,6 +28,17 @@ CONF_PATH = os.path.join(SLIDESHOW_PATH, "signage/conf.d")
 WEB_PATH = os.path.join('/home/cory/PycharmProjects/signpi-server/frontend/static/frontend', "web")
 
 
+def delete_slideshow(name):
+    web_path = os.path.join(WEB_PATH, name)
+    conf_path = os.path.join(CONF_PATH, name + '.conf')
+
+    if os.path.exists(web_path):
+        shutil.rmtree(web_path)
+
+    if os.path.isfile(conf_path):
+        os.remove(conf_path)
+
+
 def list_slides(name):
     path = os.path.join(WEB_PATH, name + "/slides")
     return [slide for slide in os.listdir(path)]
@@ -35,6 +46,26 @@ def list_slides(name):
 
 def list_slideshows():
     return [conf[:-5] for conf in os.listdir(CONF_PATH)]
+
+
+def get_info(name):
+    """
+    Get's slideshow metadata.
+    :param name: name of the slideshow
+    :return: tuple containing desc, url
+    """
+    conf_path = os.path.join(CONF_PATH, name + '.conf')
+    f = open(conf_path, 'r')
+    url = ''
+    desc = ''
+    for line_number, line in enumerate(f.readlines()):
+        if line_number == 2:
+            desc = line[2:].strip()  # remove '# '
+
+        if line[:14] == 'SLIDESHOW_PDF=':
+            url = line.strip()[15:-1]
+    f.close()
+    return desc, url
 
 
 def create_slideshow(name, desc, url):

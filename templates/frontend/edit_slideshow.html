@@ -5,6 +5,8 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        <a href="{% url 'frontend:slideshow' name=name %}" style="display: block;">View</a>
+        <a href="{% url 'frontend:delete_slideshow' name=name %}" style="display: block;">Delete</a>
         <input type="Submit" value="Submit"/>
     </form>
 

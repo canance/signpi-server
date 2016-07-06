@@ -16,7 +16,7 @@
         <div id="tab-devices">
             <ul>
                 {% for slide in slides %}
-                    <li><a href="{% url 'frontend:edit_slideshow' slideshow=slide %}">{{ slide }}</a></li>
+                    <li><a href="{% url 'frontend:edit_slideshow' name=slide %}">{{ slide }}</a></li>
                 {% endfor %}
             </ul>
         </div>
