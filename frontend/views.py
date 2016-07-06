@@ -21,7 +21,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from backend.models import Configuration, Device, Group
 from .forms import DeviceForm, GroupForm, SlideshowForm
-from .slideshow import list_slideshows
+from . import slideshow
 
 @login_required()
 def index(request):
@@ -167,7 +167,7 @@ def create_device(request):
 
 @login_required()
 def slideshows(request):
-    slides = list_slideshows()
+    slides = slideshow.list_slideshows()
     context = {
         'slides': slides,
         'size': len(slides),
@@ -197,7 +197,7 @@ def create_slideshow(request):
     if request.method == 'POST':
         form = SlideshowForm(request.POST)
         if form.is_valid():
-            create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
+            slideshow.create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
             return HttpResponseRedirect('/frontend/slideshows')
     else:
         form = SlideshowForm()
@@ -206,3 +206,12 @@ def create_slideshow(request):
         'form': form,
     }
     return render(request, 'frontend/create_slideshow.html', context)
+
+
+def get_slideshow(request, name):
+    slides = slideshow.list_slides(name)
+    slides = ['/static/frontend/web/%s/slides/%s' % (name, slide) for slide in slides]
+    context = {
+        'slides': slides,
+    }
+    return render(request, 'frontend/slideshow.html', context)

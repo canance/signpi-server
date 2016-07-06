@@ -24,7 +24,13 @@ import subprocess
 SLIDESHOW_PATH = '/home/cory/PycharmProjects/signage'
 FETCH_SLIDES_PATH = '/home/cory/PycharmProjects/signage/bin/fetch_slides'
 CONF_PATH = os.path.join(SLIDESHOW_PATH, "signage/conf.d")
-WEB_PATH = os.path.join(SLIDESHOW_PATH, "web")
+# set to frontend/static/frontend/web
+WEB_PATH = os.path.join('/home/cory/PycharmProjects/signpi-server/frontend/static/frontend', "web")
+
+
+def list_slides(name):
+    path = os.path.join(WEB_PATH, name + "/slides")
+    return [slide for slide in os.listdir(path)]
 
 
 def list_slideshows():

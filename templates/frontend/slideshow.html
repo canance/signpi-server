@@ -1,0 +1,69 @@
+<html>
+<head>
+
+<style>
+
+img {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	cursor: none;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+}
+
+div {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+}
+
+</style>
+
+
+<script language="JavaScript">
+    var slides = [
+    {% for slide in slides %}
+        '{{ slide }}',
+    {% endfor %}
+    ]
+</script>
+
+
+<script language="JavaScript">
+
+// Delay between slides and whole-page refresh interval
+var DELAY = 10;
+var REFRESH = 900;
+
+var slide = 0;
+
+function next_slide() {
+	imgtag = '<img src="' + slides[slide] + '" />';
+	document.getElementById("slideview").innerHTML = imgtag;
+	slide = (slide + 1) % slides.length;
+}
+
+function refresh_show() {
+	location.reload(true);
+}
+
+setInterval(next_slide, 1000*DELAY);
+setTimeout(refresh_show, 1000*REFRESH);
+
+</script>
+
+<title>Slideshow</title>
+</head>
+
+<body onload="next_slide()">
+<div id="slideview"></div>
+</body>
+
+</html>
