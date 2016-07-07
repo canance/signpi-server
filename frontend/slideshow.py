@@ -21,11 +21,11 @@ import subprocess
 
 #SLIDESHOW_PATH = '/slideshows'
 #FETCH_SLIDES_PATH = '/usr/bin/fetch_slides'
-SLIDESHOW_PATH = '/home/cory/PycharmProjects/signage'
-FETCH_SLIDES_PATH = '/home/cory/PycharmProjects/signage/bin/fetch_slides'
+SLIDESHOW_PATH = '/Users/cory/PycharmProjects/signage'
+FETCH_SLIDES_PATH = '/Users/cory/PycharmProjects/signage/bin/fetch_slides'
 CONF_PATH = os.path.join(SLIDESHOW_PATH, "signage/conf.d")
 # set to frontend/static/frontend/web
-WEB_PATH = os.path.join('/home/cory/PycharmProjects/signpi-server/frontend/static/frontend', "web")
+WEB_PATH = os.path.join('/Users/cory/PycharmProjects/signpi-server/frontend/static/frontend', "web")
 
 
 def delete_slideshow(name):
@@ -93,7 +93,7 @@ def create_slideshow(name, desc, url):
     # call fetch_slides script
     if os.path.exists(web_path):
         shutil.rmtree(web_path)
-    os.mkdir(web_path)
+    os.makedirs(web_path)
     os.chdir(web_path)
     completed_process = subprocess.run([FETCH_SLIDES_PATH, conf_path])
     return completed_process.returncode == 0

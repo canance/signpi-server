@@ -180,8 +180,8 @@ def edit_slideshow(request, name):
     if request.method == 'POST':
         form = SlideshowForm(request.POST)
         if form.is_valid():
-            # delete old
-            create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
+            slideshow.delete_slideshow(name)
+            slideshow.create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
             return HttpResponseRedirect('/frontend/slideshows')
     else:
         desc, url = slideshow.get_info(name)
@@ -221,6 +221,7 @@ def get_slideshow(request, name):
         'slides': slides,
     }
     return render(request, 'frontend/slideshow.html', context)
+
 
 @login_required()
 def delete_slideshow(request, name):
