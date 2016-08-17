@@ -137,7 +137,7 @@ def edit_device(request, dev):
         form = DeviceForm(request.POST, instance=dev)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/frontend/devices')
+            return render(request, 'frontend/devices.html')
     else:
         form = DeviceForm(instance=dev, label_suffix='')
         context = {
