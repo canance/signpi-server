@@ -144,7 +144,7 @@ def edit_device(request, dev):
             'form': form,
         }
         return render(request, 'frontend/edit_device.html', context)
-
+    return render(request, 'frontend/devices.html')
 
 @login_required()
 def create_device(request):
