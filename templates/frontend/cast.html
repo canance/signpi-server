@@ -31,9 +31,15 @@
         <br/>
 
         <div id="configuration_select">
-            {% for config in configs %}
-                <input type="radio" name="config" id="config{{ config.id }}" value="{{ config.id }}"/>
-                <label for="config{{ config.id }}">{{ config.name }}</label>
+        <h4>Streams</h4>
+            {% for stream in streams %}
+                <input type="radio" name="config" id="stream:{{ stream.name }}" value="stream:{{ stream.name }}"/>
+                <label for="stream:{{ stream.name }}">{{ stream.name }}</label>
+            {% endfor %}
+        <h4>Slideshows</h4>
+            {% for slideshow in slideshows %}
+                <input type="radio" name="config" id="slideshow:{{ slideshow }}" value="slideshow:{{ slideshow }}"/>
+                <label for="slideshow:{{ slideshow }}">{{ slideshow }}</label>
             {% endfor %}
         </div>
         <br/>
@@ -41,7 +47,7 @@
         <input type="submit" value="Cast"/>
     </form>
     {% else %}
-    <p>You need to add some devices and/or configurations first!</p>
+    <p>You need to add some devices or slideshow/streams first!</p>
 
     {% endif %}
 {% endblock %}

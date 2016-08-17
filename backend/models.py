@@ -39,12 +39,10 @@ class Args(models.Model):
         return self.value
 
 
-class Configuration(models.Model):
-    name = models.CharField(max_length=255)
+class Stream(models.Model):
+    name = models.CharField(max_length=255, blank=False)
     desc = models.TextField(blank=True)
-    app_id = models.ForeignKey(App, models.SET_NULL, blank=True, null=True)
-    url_id = models.ForeignKey(URL, models.SET_NULL, blank=True, null=True)
-    args_id = models.ForeignKey(Args, models.SET_NULL, blank=True, null=True)
+    url = models.CharField(max_length=255, blank=False)
 
     def __str__(self):
         return self.name
@@ -54,12 +52,14 @@ class Device(models.Model):
     name = models.CharField(max_length=255)
     desc = models.TextField(blank=True)
     mac = models.CharField(max_length=17)
-    configuration = models.ForeignKey(Configuration, models.SET_NULL, blank=True, null=True)
+    configuration = models.CharField(max_length=255, default='')
 
     def __str__(self):
-        config = self.configuration if self.configuration else "N/A"
-        name = self.name if self.name  else self.mac
-        return "%s - %s" % (name, config)
+        name = self.name if self.name else self.mac
+        if self.configuration != '':
+            return "%s - %s" % (name, self.configuration)
+        else:
+            return name
 
 
 class Group(models.Model):

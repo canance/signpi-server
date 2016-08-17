@@ -1,0 +1,12 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Edit Stream</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <a href="{% url 'frontend:delete_stream' name=name %}" style="display: block;">Delete</a>
+        <input type="Submit" value="Submit"/>
+    </form>
+
+{% endblock %}

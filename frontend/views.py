@@ -19,33 +19,28 @@ from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from backend.models import Configuration, Device, Group
-from .forms import DeviceForm, GroupForm, SlideshowForm
+from backend.models import Stream, Device, Group
+from .forms import DeviceForm, GroupForm, SlideshowForm, StreamForm
 from . import slideshow
 
 @login_required()
 def index(request):
     devices = len(Device.objects.all())
     groups = len(Group.objects.all())
-    configs = len(Configuration.objects.all())
-
+    streams = len(Stream.objects.all())
 
     context = {
         'devices': devices,
-        'configs': configs,
+        'streams': streams,
         'groups': groups,
     }
     return render(request, 'frontend/index.html', context)
-
 
 @login_required()
 def change(request):
     device_ids = request.POST.getlist('devices[]')  # device ids
     group_ids = request.POST.getlist('groups[]')  # group ids
-    config_id = request.POST['config']  # config id
-
-    # make sure config is a valid id
-    config = get_object_or_404(Configuration, pk=config_id)
+    config = request.POST['config']  # config name
 
     for device_id in device_ids:
         device = get_object_or_404(Device, pk=device_id)
@@ -65,14 +60,16 @@ def change(request):
 def cast(request):
     devices = Device.objects.order_by('name')
     groups = Group.objects.order_by('name')
-    configs = Configuration.objects.order_by('name')
+    streams = Stream.objects.order_by('name')
+    slideshows = slideshow.list_slideshows()
 
-    castable = True if len(configs) != 0 and len(devices) != 0 else False
+    castable = len(devices) > 0 and (len(streams) > 0 or len(slideshows) > 0)
 
     context = {
         'devices': devices,
         'groups': groups,
-        'configs': configs,
+        'streams': streams,
+        'slideshows': slideshows,
         'castable': castable,
     }
     return render(request, 'frontend/cast.html', context)
@@ -180,8 +177,8 @@ def edit_slideshow(request, name):
     if request.method == 'POST':
         form = SlideshowForm(request.POST)
         if form.is_valid():
-            # delete old
-            create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
+            slideshow.delete_slideshow(name)
+            slideshow.create_slideshow(form.data['name'], form.data['desc'], form.data['url'])
             return HttpResponseRedirect('/frontend/slideshows')
     else:
         desc, url = slideshow.get_info(name)
@@ -226,3 +223,54 @@ def get_slideshow(request, name):
 def delete_slideshow(request, name):
     slideshow.delete_slideshow(name)
     return HttpResponseRedirect('/frontend/slideshows')
+
+
+@login_required()
+def streams(request):
+    streams = Stream.objects.order_by('name')
+    context = {
+        'streams': streams,
+        'size': len(streams),
+    }
+    return render(request, 'frontend/streams.html', context)
+
+
+@login_required()
+def create_stream(request):
+    if request.method == 'POST':
+        form = StreamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/streams')
+    else:
+        form = StreamForm(label_suffix='')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'frontend/create_stream.html', context)
+
+
+@login_required()
+def edit_stream(request, name):
+    if request.method == 'POST':
+        form = StreamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/frontend/streams')
+    else:
+        stream = Stream.objects.get(name=name)
+        form = StreamForm(instance=stream, label_suffix='')
+        context = {
+            'form': form,
+            'name': name,
+        }
+        return render(request, 'frontend/edit_stream.html', context)
+
+
+@login_required()
+def delete_stream(request, name):
+    stream = Stream.objects.get(name=name)
+    stream.delete()
+    return render(request, 'frontend/streams.html')
+

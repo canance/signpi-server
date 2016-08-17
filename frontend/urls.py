@@ -30,8 +30,12 @@ urlpatterns = [
     url(r'^edit_device/(?P<dev>\d+)/$', views.edit_device, name='edit_device'),
     url(r'^slideshows/', views.slideshows, name="slideshows"),
     url(r'^slideshow/(?P<name>.*)/$', views.get_slideshow, name="slideshow"),
+    url(r'^streams/', views.streams, name="streams"),
     url(r'^create_slideshow/', views.create_slideshow, name="create_slideshow"),
+    url(r'^create_stream/', views.create_stream, name="create_stream"),
     url(r'^delete_slideshow/(?P<name>.*)/$', views.delete_slideshow, name="delete_slideshow"),
     url(r'^edit_slideshow/(?P<name>.*)/$', views.edit_slideshow, name='edit_slideshow'),
+    url(r'^delete_stream/(?P<name>.*)/$', views.delete_stream, name="delete_stream"),
+    url(r'^edit_stream/(?P<name>.*)/$', views.edit_stream, name='edit_stream'),
     url(r'^edit_device_group/(?P<grp>\d+)/$', views.edit_device_group, name='edit_device_group'),
 ]
