@@ -137,14 +137,14 @@ def edit_device(request, dev):
         form = DeviceForm(request.POST, instance=dev)
         if form.is_valid():
             form.save()
-            return render(request, 'frontend/devices.html')
+            return HttpResponseRedirect('/frontend/devices')
     else:
         form = DeviceForm(instance=dev, label_suffix='')
         context = {
             'form': form,
         }
         return render(request, 'frontend/edit_device.html', context)
-    return render(request, 'frontend/devices.html')
+    return HttpResponseRedirect('/frontend/devices')
 
 @login_required()
 def create_device(request):
