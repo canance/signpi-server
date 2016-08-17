@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^edit_device/(?P<dev>\d+)/$', views.edit_device, name='edit_device'),
     url(r'^slideshows/', views.slideshows, name="slideshows"),
     url(r'^slideshow/(?P<name>.*)/$', views.get_slideshow, name="slideshow"),
+    url(r'^slideshow_json/(?P<name>.*)/$', views.get_slideshow_json, name="slideshow_json"),
     url(r'^streams/', views.streams, name="streams"),
     url(r'^create_slideshow/', views.create_slideshow, name="create_slideshow"),
     url(r'^create_stream/', views.create_stream, name="create_stream"),

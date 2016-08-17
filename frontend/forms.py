@@ -30,6 +30,7 @@ class DeviceForm(ModelForm):
     class Meta:
         model = Device
         fields = '__all__'
+        exclude = ("configuration",)
 
 
 class SlideshowForm(Form):

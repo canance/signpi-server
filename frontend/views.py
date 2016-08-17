@@ -17,11 +17,12 @@
 
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from backend.models import Stream, Device, Group
 from .forms import DeviceForm, GroupForm, SlideshowForm, StreamForm
 from . import slideshow
+import json
 
 @login_required()
 def index(request):
@@ -212,12 +213,31 @@ def create_slideshow(request):
 
 
 def get_slideshow(request, name):
-    slides = slideshow.list_slides(name)
-    slides = ['/static/frontend/web/%s/slides/%s' % (name, slide) for slide in slides]
+
+    url = request.build_absolute_uri(reverse('frontend:slideshow_json', kwargs={'name': name}))
     context = {
-        'slides': slides,
+        'url': url,
     }
     return render(request, 'frontend/slideshow.html', context)
+
+
+def get_slideshow_json(request, name):
+    slide_names = slideshow.list_slides(name)
+    slides = ['/static/frontend/web/%s/slides/%s' % (name, slide) for slide in slide_names]
+
+    slide_json = {
+        'slides': []
+    }
+
+    for num, slide in enumerate(slides):
+        slide_json['slide_' + str(num)] = {
+            'image': slide,
+            'time': 10,
+        }
+        slide_json['slides'].append('slide_' + str(num))
+
+    return HttpResponse(json.dumps(slide_json), content_type="application/json")
+
 
 @login_required()
 def delete_slideshow(request, name):

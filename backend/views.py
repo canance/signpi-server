@@ -18,6 +18,7 @@
 from .models import Device, Stream
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 import frontend.slideshow
 
 import json
@@ -28,6 +29,9 @@ def configuration(request):
         return HttpResponse('Invalid request!')
 
     mac_address = request.GET['dev']
+
+    if mac_address.strip() == '':
+        return HttpResponse('Empty MAC address!')
 
     try:
         device = Device.objects.get(mac__iexact=mac_address)
@@ -43,7 +47,8 @@ def configuration(request):
 
         elif device.configuration[:10] == 'slideshow:':
             intent = 'slideshow'
-            _, url = frontend.slideshow.get_info(device.configuration[10:])
+            # _, url = frontend.slideshow.get_info(device.configuration[10:])
+            url = request.build_absolute_uri(reverse('frontend:slideshow', kwargs={'name': device.configuration[10:]}))
         else:
             url = ''
             intent = 'error'

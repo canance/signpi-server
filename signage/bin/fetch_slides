@@ -2,7 +2,6 @@
 
 # Requires either (imagemagick and ghostscript) or pdftoppm (with png support)
 
-. /etc/signage/signage.conf
 
 if [[ $# -ne 1 ]]; then
 	echo "Usage: $0 <configuration_file>"
@@ -23,7 +22,7 @@ mkdir output
 wget -O slides.pdf "${SLIDESHOW_PDF}"
 
 if command -v convert > /dev/null; then
-    convert slides.pdf "output/slide.png"
+    convert -resize 1920x1080 slides.pdf "output/slide.png"
 else
     pdftoppm -png slides.pdf "output/slide"
 fi
