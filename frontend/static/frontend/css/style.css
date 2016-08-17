@@ -128,3 +128,15 @@ input {
 input[type="submit"]{
     border: none;
 }
+
+#configuration_select {
+    border: 1px solid black;
+    border-radius: 5px;
+    background: white;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+#configuration_select > h4 {
+    padding: 10px;
+}

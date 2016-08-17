@@ -19,13 +19,11 @@ import os
 import shutil
 import subprocess
 
-#SLIDESHOW_PATH = '/slideshows'
-#FETCH_SLIDES_PATH = '/usr/bin/fetch_slides'
-SLIDESHOW_PATH = '/home/cory/PycharmProjects/signage'
-FETCH_SLIDES_PATH = '/home/cory/PycharmProjects/signage/bin/fetch_slides'
+# The following env variables are expected: SLIDESHOW_PATH, FETCH_SLIDES_PATH, SLIDESHOW_WEB_PATH
+SLIDESHOW_PATH = os.environ['SLIDESHOW_PATH'] if 'SLIDESHOW_PATH' in os.environ.keys() else '/slideshows'
+FETCH_SLIDES_PATH = os.environ['FETCH_SLIDES_PATH'] if 'FETCH_SLIDES_PATH' in os.environ.keys() else '/sinage/bin/fetch_slides'
 CONF_PATH = os.path.join(SLIDESHOW_PATH, "signage/conf.d")
-# set to frontend/static/frontend/web
-WEB_PATH = os.path.join('/home/cory/PycharmProjects/signpi-server/frontend/static/frontend', "web")
+WEB_PATH = os.environ['SLIDESHOW_WEB_PATH'] if 'SLIDESHOW_WEB_PATH' in os.environ.keys() else '/signpi-server/frontend/static/frontend/web'
 
 
 def delete_slideshow(name):

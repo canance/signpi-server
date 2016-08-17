@@ -17,8 +17,8 @@
 
 from django.contrib import admin
 
-from .models import App, Args, Configuration, Device, Group, URL
+from .models import Device, Group, Stream
 
 # Register your models here.
-my_models = (App, Args, Configuration, Device, Group, URL)
+my_models = (Device, Group, Stream)
 admin.site.register(my_models)

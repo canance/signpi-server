@@ -15,9 +15,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .models import Device
+from .models import Device, Stream
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+import frontend.slideshow
 
 import json
 
@@ -35,13 +36,22 @@ def configuration(request):
         device.mac = mac_address
         device.save()
     else:
-        if device.configuration:
-            configuration_data = {
-                "app": device.configuration.app_id.value,
-                "args": device.configuration.args_id.value,
-                "url": device.configuration.url_id.value,
-            }
-            return HttpResponse(json.dumps(configuration_data, sort_keys=True, indent=4, separators=(',', ':')))
+        if device.configuration[:7] == 'stream:':
+            intent = 'stream'
+            stream = Stream.objects.get(name=device.configuration[7:])
+            url = stream.url
+
+        elif device.configuration[:10] == 'slideshow:':
+            intent = 'slideshow'
+            _, url = frontend.slideshow.get_info(device.configuration[10:])
+        else:
+            url = ''
+            intent = 'error'
+        configuration_data = {
+            'intent': intent,
+            'url': url,
+        }
+        return HttpResponse(json.dumps(configuration_data, sort_keys=True, indent=4, separators=(',', ':')))
 
     return HttpResponse('{}')
 

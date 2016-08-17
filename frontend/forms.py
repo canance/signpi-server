@@ -17,7 +17,7 @@
 
 from django import forms
 from django.forms import ModelForm, Form
-from backend.models import Group, Device
+from backend.models import Group, Device, Stream
 
 
 class GroupForm(ModelForm):
@@ -36,3 +36,9 @@ class SlideshowForm(Form):
     name = forms.CharField(label="Name", max_length=100)
     desc = forms.CharField(label="Description", max_length=255)
     url = forms.CharField(label="PDF URL", max_length=255)
+
+
+class StreamForm(ModelForm):
+    class Meta:
+        model = Stream
+        fields = '__all__'

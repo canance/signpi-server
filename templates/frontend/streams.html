@@ -1,0 +1,28 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+    <h1>Streams</h1>
+
+
+    <div id="tabs">
+
+        <ul>
+            <li><a href="#tab-streams">Streams</a></li>
+            <li><a href="{% url 'frontend:create_stream' %}">Create</a></li>
+        </ul>
+
+
+        <div id="tab-streams">
+            <ul>
+                {% for stream in streams %}
+                    <li><a href="{% url 'frontend:edit_stream' name=stream %}">{{ stream }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
