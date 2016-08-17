@@ -24,6 +24,12 @@ FETCH_SLIDES_PATH = os.environ['FETCH_SLIDES_PATH'] if 'FETCH_SLIDES_PATH' in os
 SLIDESHOW_CONF_PATH = os.environ['SLIDESHOW_CONF_PATH'] if 'SLIDESHOW_CONF_PATH' in os.environ.keys() else '/signpi-server/signage/conf.d'
 WEB_PATH = os.environ['SLIDESHOW_WEB_PATH'] if 'SLIDESHOW_WEB_PATH' in os.environ.keys() else '/signpi-server/frontend/static/frontend/web'
 
+if not os.path.exists(SLIDESHOW_CONF_PATH):
+    os.mkdir(SLIDESHOW_CONF_PATH)
+
+if not os.path.exists(WEB_PATH):
+    os.mkdir(WEB_PATH)
+
 
 def delete_slideshow(name):
     web_path = os.path.join(WEB_PATH, name)
