@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Requires either (imagemagick and ghostscript) or pdftoppm (with png support)
+
+. /etc/signage/signage.conf
+
+if [[ $# -ne 1 ]]; then
+	echo "Usage: $0 <configuration_file>"
+	exit 2
+fi
+
+. "$1"
+
+savedir=$(pwd)
+tmpdir=$(mktemp -d)
+cd "${tmpdir}"
+
+mkdir -p "${SLIDESHOW_OUTPUT}/slides"
+rm -f slides.pdf
+
+mkdir output
+
+wget -O slides.pdf "${SLIDESHOW_PDF}"
+
+if command -v convert > /dev/null; then
+    convert slides.pdf "output/slide.png"
+else
+    pdftoppm -png slides.pdf "output/slide"
+fi
+
+cd output
+count=$(ls -1 *.png | wc -l)
+if [[ ${count} -gt 0 ]]; then
+	########################################################################
+	# Generate the JavaScript image list
+	echo "var slides=[" > "${SLIDESHOW_OUTPUT}/imglist.js"
+	
+	next=1
+	for item in $(ls -1 *.png); do
+		if [[ ${next} -eq ${count} ]]; then
+			echo "	'slides/${item}'" >> "${SLIDESHOW_OUTPUT}/imglist.js"
+		else
+			echo "	'slides/${item}'," >> "${SLIDESHOW_OUTPUT}/imglist.js"
+		fi
+		
+		next=$((next + 1))
+	done
+	
+	echo "]" >> "${SLIDESHOW_OUTPUT}/imglist.js"
+	########################################################################
+	
+	rm -f "${SLIDESHOW_OUTPUT}/slides"/*.png
+	mv *.png "${SLIDESHOW_OUTPUT}/slides"
+	chmod 644 "${SLIDESHOW_OUTPUT}/slides"/*.png
+	chmod 644 "${SLIDESHOW_OUTPUT}/imglist.js"
+	command -v restorecon 2>/dev/null && restorecon -rv "${SLIDESHOW_OUTPUT}"
+fi
+
+cd "${savedir}"
+[[ "${tmpdir}" != "/" ]] && rm -rf "${tmpdir}"
+

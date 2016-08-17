@@ -20,15 +20,14 @@ import shutil
 import subprocess
 
 # The following env variables are expected: SLIDESHOW_PATH, FETCH_SLIDES_PATH, SLIDESHOW_WEB_PATH
-SLIDESHOW_PATH = os.environ['SLIDESHOW_PATH'] if 'SLIDESHOW_PATH' in os.environ.keys() else '/slideshows'
-FETCH_SLIDES_PATH = os.environ['FETCH_SLIDES_PATH'] if 'FETCH_SLIDES_PATH' in os.environ.keys() else '/sinage/bin/fetch_slides'
-CONF_PATH = os.path.join(SLIDESHOW_PATH, "signage/conf.d")
+FETCH_SLIDES_PATH = os.environ['FETCH_SLIDES_PATH'] if 'FETCH_SLIDES_PATH' in os.environ.keys() else '/signpi-server/sinage/bin/fetch_slides'
+SLIDESHOW_CONF_PATH = os.environ['SLIDESHOW_CONF_PATH'] if 'SLIDESHOW_CONF_PATH' in os.environ.keys() else '/signpi-server/signage/conf.d'
 WEB_PATH = os.environ['SLIDESHOW_WEB_PATH'] if 'SLIDESHOW_WEB_PATH' in os.environ.keys() else '/signpi-server/frontend/static/frontend/web'
 
 
 def delete_slideshow(name):
     web_path = os.path.join(WEB_PATH, name)
-    conf_path = os.path.join(CONF_PATH, name + '.conf')
+    conf_path = os.path.join(SLIDESHOW_CONF_PATH, name + '.conf')
 
     if os.path.exists(web_path):
         shutil.rmtree(web_path)
@@ -43,7 +42,7 @@ def list_slides(name):
 
 
 def list_slideshows():
-    return [conf[:-5] for conf in os.listdir(CONF_PATH)]
+    return [conf[:-5] for conf in os.listdir(SLIDESHOW_CONF_PATH)]
 
 
 def get_info(name):
@@ -52,7 +51,7 @@ def get_info(name):
     :param name: name of the slideshow
     :return: tuple containing desc, url
     """
-    conf_path = os.path.join(CONF_PATH, name + '.conf')
+    conf_path = os.path.join(SLIDESHOW_CONF_PATH, name + '.conf')
     f = open(conf_path, 'r')
     url = ''
     desc = ''
@@ -71,7 +70,7 @@ def create_slideshow(name, desc, url):
         raise Exception("The name [%s] is already taken!" % name)
 
     web_path = os.path.join(WEB_PATH, name)
-    conf_path = os.path.join(CONF_PATH, name + '.conf')
+    conf_path = os.path.join(SLIDESHOW_CONF_PATH, name + '.conf')
 
     # create conf file
     conf = '#/bin/bash\n'
