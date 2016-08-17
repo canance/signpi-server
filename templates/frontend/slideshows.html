@@ -2,18 +2,18 @@
 
 {% block content %}
 
-    <h1>Devices</h1>
+    <h1>Slideshows</h1>
 
 
     <div id="tabs">
 
         <ul>
-            <li><a href="#tab-devices">Devices</a></li>
+            <li><a href="#tab-slideshows">Slideshows</a></li>
             <li><a href="{% url 'frontend:create_slideshow' %}">Create</a></li>
         </ul>
 
 
-        <div id="tab-devices">
+        <div id="tab-slideshows">
             <ul>
                 {% for slide in slides %}
                     <li><a href="{% url 'frontend:edit_slideshow' name=slide %}">{{ slide }}</a></li>
